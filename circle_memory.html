@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+-->
+
+<!-- ## Code -->
+<html>
+<head>
+	<title>Circle Memory</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="http://longouyang.github.com/mmturkey/mmturkey.js"></script>
+	
+	<!-- Include the cascading style sheet (CSS), which lets us separate style from content. This stylesheet is important because it defines the notion of a **slide** and also makes things look nicer, which subjects appreciate. It's worth looking at the [source code][stylecss]. -->
+	<!-- [stylecss]: style.html -->
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- The instructions slide. -->
+<div class="slide" id="instructions">
+	<img src="images/stanford.png" alt="Stanford University">
+		<p id='logo-text'>Stanford Computation and Cognition Lab</p>
+	<p class="block-text">In this experiment, you will see numbers displayed on the screen.
+		<!-- Tell the subject which keys to press. We need to set these values dynamically; I use <code>{{}}</code> to indicate template locations in HTML that will be modified by JavaScript. -->
+		Press <span id="even-key">{{}}</span> if the number is even and
+		<span id="odd-key">{{}}</span> if the number is odd.		
+	</p>
+	<!-- Button to start the experiment. <code>this.blur()</code> removes the focus from the button, if the user pressed the button by using the keyboard, rather than the mouse. -->
+	<button type="button" onclick="this.blur(); experiment.next()">Start</button>
+	<!-- Legal blurb that we're required to show.
+    Not too sure what we're going to use for this so it's hipster ipsum for now-->
+	<p class="block-text" id="legal">Legal information: Terry richardson tempor ut irony sartorial, laboris velit swag mixtape. Swag eiusmod 90's wes anderson, flannel literally pour-over skateboard small batch vinyl direct trade bicycle rights magna eu. 8-bit before they sold out four loko squid synth, farm-to-table small batch art party enim. Nesciunt scenester synth next level farm-to-table, trust fund vinyl aesthetic chambray. Officia vegan 8-bit, bespoke american apparel voluptate cray hella irure ullamco whatever odio DIY. Commodo butcher mlkshk messenger bag farm-to-table squid. Jean shorts mollit meh, direct trade nihil letterpress meggings readymade.</p>
+</div>
+<!-- The "stage" slide - where the bulk of the experiment will be displayed. Again, note the use of <code>{{}}</code>. -->
+<div class="slide" id="stage">
+	<p id="number">{{}}</p>
+</div>
+<!-- The finish slide. -->
+<div class="slide" id="finished">
+	You're finished - thanks for participating! Submitting to Mechanical Turk...
+</div>
+
+<!-- Include the <a href="experiment.html">JavaScript file for the experiment</a>. As written, that script immediately executes commands, so we include it here at the end of the HTML file to ensure that resources referenced by the script actually exist. For instance, one of the immediately executed commands is <code>showSlide("instructions")</code>. If we loaded experiment.js, say, in the <code>head</code> section, <code>showSlide("instructions")</code> would fail because the <code>instructions</code> slide doesn't exist yet. It is possible to load the script in <code>head</code> but you have to ensure that any immediately executed commands, if they rely on potentially uninitialized HTML elements, are _delayed_ until the page is ready, using either [window.onload][onload] or jQuery's more robust [$(document).ready()][domReady]  -->
+<!-- [onload]: https://developer.mozilla.org/en/DOM/window.onload -->
+<!-- [domReady]: http://api.jquery.com/ready/ -->
+<script src="experiment.js"></script>
+
+</body>
+</html>
