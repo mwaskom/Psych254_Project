@@ -9,8 +9,8 @@ import numpy as np
 
 n_pairs = 15
 n_circles = 9
-color_base = ["r", "g", "b"]
-inert_color = "g"
+color_base = ["red", "green", "blue"]
+inert_color = "green"
 colors = np.repeat(color_base, n_circles / len(color_base))
 rs = np.random.RandomState(254)
 width = 600
