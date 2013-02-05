@@ -129,7 +129,7 @@ var experiment = {
     setTimeout(testMemory, 1500)
 
   }
-
+}
 
 var old_experiment = {
   // Parameters for this sequence.
