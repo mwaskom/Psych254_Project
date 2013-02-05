@@ -22,30 +22,6 @@ function randint(a, b) {
 	}
 }
 
-// Draw from a gaussian distribution with optional mean and var
-// (mean, var default to 0, 1)
-function randn(mu, sigma2) {
-	var x1, x2, rad;
- 
-	do {
-		x1 = 2 * Math.random() - 1;
-		x2 = 2 * Math.random() - 1;
-		rad = x1 * x1 + x2 * x2;
-	} while(rad >= 1 || rad == 0);
- 
-	if (typeof mu == "undefined") {
-		mu = 0;
-        }
-	if (typeof sigma2 == "undefined") {
-		sigma2 = 1;
-        }
-	var c = Math.sqrt(-2 * Math.log(rad) / rad);
-     	X = x1 * c;
-        X = mu + Math.sqrt(sigma2) * X;
-
-    return X;
-};
-
 
 // Add a random selection function to all arrays 
 // (e.g., <code>[4,8,7].random()</code> could return 4, 8, or 7).
@@ -110,11 +86,13 @@ var experiment = {
   // Set up an empty array to store the experimental data as we go
   data: [],
 
+
   // The end function completes the experiment and submits to Turk
   end: function() {
     showSlide("finished");
     setTimeout(function() { turk.submit(old_experiment) }, 1500);
   },
+
 
   // The next function is called on each trial
   // Basic stages are sample, delay, test
