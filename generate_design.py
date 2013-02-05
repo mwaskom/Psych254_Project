@@ -63,7 +63,7 @@ def make_array():
                 targ_index=targ_index,
                 targ_color=str(targ_color),
                 targ_size=targ_size,
-                tarx_xloc=int(targ_xloc),
+                targ_xloc=int(targ_xloc),
                 targ_yloc=int(targ_yloc),
                 group_means=means,
                 group_stds=stds,
