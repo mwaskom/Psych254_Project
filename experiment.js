@@ -1,5 +1,5 @@
 //-- General helper functions
-//
+
 function showSlide(id) {
   //Show only a slide with a specific ID
   $(".slide").hide();
@@ -7,7 +7,7 @@ function showSlide(id) {
 }
 
 function randint(a, b) {
-  // Get random integers. Behaves like numpy.randint.
+  //Get random integers. Behaves like numpy.randint.
   if (typeof b == "undefined") {
       a = a || 2;
       return Math.floor(Math.random() * a);
@@ -20,7 +20,6 @@ Array.prototype.random = function() {
   //Randomly select and return an elemant of the array
   return this[randint(this.length)];
 }
-
 
 //-- Functions related to control over experimental stimuli
 
@@ -81,12 +80,13 @@ sizeSlider = function(evt){
              testData.yloc,
              testData.curSize,
              "black")
-  document.onmouseclick = saveSize;
+  document.onmousedown = saveSize;
 }
 
 saveSize = function(evt){
   //Lock in the response about the test stimulus size  
   document.onmousemove = null;
+  experiment.next();
 }
 
 //-- Global variables (probably needed because I am bad at Javasvript
@@ -143,9 +143,10 @@ var experiment = {
     if (typeof trial == "undefined") { return this.end() }
 
     //Go through the stages of the trial
-    drawArray(trial);
-    setTimeout(fillBG, 1500);
-    setTimeout(function() { testMemory(trial) }, 1000);
+    fillBG();
+    setTimeout(function() { drawArray(trial) }, 1000);
+    setTimeout(fillBG, 2500);
+    setTimeout(function() { testMemory(trial) }, 3500);
 
   }
 }
