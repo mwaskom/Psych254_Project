@@ -8,11 +8,7 @@ function showSlide(id) {
 	$("#"+id).show();
 }
 
-// Get random integers.
-// When called with no arguments, it returns either 0 or 1.
-// When called with one argument, *a*, it returns a number in {*0, 1, ..., a-1*}.
-// When called with two arguments, *a* and *b*, returns a random value in 
-// {*a*, *a + 1*, ... , *b*}.
+// Get random integers. Behaves like numpy.randint without the size parameter.
 function randint(a, b) {
 	if (typeof b == "undefined") {
 		a = a || 2;
@@ -30,17 +26,23 @@ Array.prototype.random = function() {
   return this[randint(this.length)];
 }
 
-// ## Configuration settings
-var allKeyBindings = [
-      {"p": "odd", "q": "even"},
-      {"p": "even", "q": "odd"} ],
-    allTrialOrders = [
-      [1,3,2,5,4,9,8,7,6],
-      [8,4,3,7,5,6,2,1,9] ],
-    myKeyBindings = allKeyBindings.random(),
-    myTrialOrder = allTrialOrders.random(),
-    pOdd = (myKeyBindings["p"] == "odd");
-    
+
+// Set up the trials, which is randomized across participants
+// subject to the constraint that paired arrays can't appear sequentially
+var trials = [];
+var used_trials = [];
+while (trials.length < design.length) {
+    to_use = randint(design.length);
+    if (used_trials.indexOf(to_use) == -1) {
+        this_trial = design[to_use];
+        this_id = this_trial.id;
+        last_index = trials.length -1
+        last_id = last_index > -1 ? trials[last_index].id : "whatever";
+        if (this_id != last_id) {
+            trials.push(this_trial);
+        }
+    }
+}
 // Show the instructions slide -- this is what we want subjects to see first.
 showSlide("instructions");
 
@@ -60,12 +62,28 @@ drawCircle = function(x, y, d, color){
     stim.fill();
 }
 
-var origSize = 50;
+drawArray = function(trialData){
+    n_circles = trialData.sizes.length;
+    fillBG();
+    for (i = 0; i < n_circles; i++) {
+        drawCircle(trialData.xlocs[i],
+                   trialData.ylocs[i],
+                   trialData.sizes[i],
+                   trialData.colors[i]);
+    }
+}
+
+var testData = {};
 sizeSlider = function(evt){
-    curPos = evt.pageY
-    newSize = origSize - (curPos - mouseStart);
+    curPos = evt.pageY;
+    newSize = testData.origSize - (curPos - mouseStart);
+    window.testData.curSize = newSize
     fillBG()
-    drawCircle(200, 200, newSize, "dodgerblue")
+    drawCircle(testData.xloc,
+               testData.yloc,
+               testData.curSize,
+               "black")
+    document.onmouseclick = saveSize;
 }
 
 var mouseStart = null;
@@ -74,18 +92,35 @@ startSliding = function(evt){
     document.onmousemove = sizeSlider;
 }
 
+saveSize = function(evt){
+    document.onmousemove = null;
+}
+
 // Here's the top-level function for all this business that
 // actually gets executed by the experiment code
-testMemory = function(){
+testMemory = function(trialData){
+    fillBG();
+    window.testData.xloc = trialData.targ_xloc;
+    window.testData.yloc = trialData.targ_yloc;
+    window.testData.origSize = randint(10, 85);
+    drawCircle(testData.targ_xloc,
+               testData.targ_yloc,
+               testData.origSize,
+               "black");
+    document.onmousemove = startSliding;
+}
 
+wait = function(msec){
+    setTimeout(function() {return null}, msec);
 }
 
 
 var experiment = {
 
+  trials: trials, 
+
   // Set up an empty array to store the experimental data as we go
   data: [],
-
 
   // The end function completes the experiment and submits to Turk
   end: function() {
@@ -98,53 +133,22 @@ var experiment = {
   // Basic stages are sample, delay, test
   // Each of these stages has its own funtion to do the bulk of the work
   next: function() {
+ 
+    showSlide("stimulus");
+    trial = experiment.trials.shift();
 
-    fillBG()
+    fillBG();
+    wait(1000);
+
     // draw some circles
-
-    // Do the 
-    fillBG()
-    setTimeout(testMemory, 1500)
-
-  }
-}
-
-var old_experiment = {
-  // Parameters for this sequence.
-  trials: myTrialOrder,
-  // Experiment-specific parameters - which keys map to odd/even
-  keyBindings: myKeyBindings,
-  // The work horse of the sequence - what to do on every trial.
-  next: function() {
-    // Get the current trial
-    var n = old_experiment.trials.shift();
-    // If the current trial is undefined, we're done
-    if (typeof n == "undefined") {
-      return old_experiment.end();
-    }
+    drawArray(trial)
+    wait(1500);
     
-    // Compute the correct answer.
-    var realParity = (n % 2 == 0) ? "even" : "odd";
-    
-    showSlide("stage");
-    // Display the number stimulus.
-    var colors = Array("firebrick", "darkgreen", "midnightblue");
-    color = colors.random()
-    // Just try drawing some circles for now
+    fillBG();
+    wait(1000);
 
-    var viewer = $("canvas")[1];
-    var circle = drawCircle(viewer, 300, 200, 50, color);
-    changeSize = function(evt){
-        //circle.scale(2, 2);
-        r = viewer.height - evt.pageY;
-        console.log(r)
-        drawCircle(viewer, 300, 200, r, color);
-    }
-    //document.onmousemove = changeSize;
-    //setTimeout("var evt = {pageX: .5}; changeSize(evt);", 50)
+    // 
+    testMemory(trial);
 
-    //setTimeout(experiment.next, 1000);
-    //$(document).mousemove(changeSize);
-    //$(document).onclick(experiment.next());
   }
 }
