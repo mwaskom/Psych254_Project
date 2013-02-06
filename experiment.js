@@ -1,11 +1,8 @@
-// ## Helper functions
-
-// Shows slides. 
+//-- General helper functions
 function showSlide(id) {
-  // Hide all slides
-	$(".slide").hide();
-	// Show just the slide we want to show
-	$("#"+id).show();
+  //Show only a slide with a specific ID
+  $(".slide").hide();
+  $("#" + id).show();
 }
 
 // Get random integers. Behaves like numpy.randint without the size parameter.
@@ -18,16 +15,87 @@ function randint(a, b) {
 	}
 }
 
-
-// Add a random selection function to all arrays 
-// (e.g., <code>[4,8,7].random()</code> could return 4, 8, or 7).
-// This is useful for condition randomization.
 Array.prototype.random = function() {
+  //Randomly select and return an elemant of the array
   return this[randint(this.length)];
 }
 
 
-// Set up the trials, which is randomized across participants
+//-- Functions related to drawing things
+
+fillBG = function(){
+  //Fill in the canvas background with a medium gray  
+  stim.fillStyle = "gray";
+  stim.fillRect(0, 0, stim.canvas.width, stim.canvas.height);
+}
+
+drawCircle = function(x, y, d, color){
+  //Draw a single circle with low-level parameters
+  stim.beginPath();
+  stim.arc(x, y, d / 2, 0, 2 * Math.PI);
+  stim.closePath();
+  stim.fillStyle = color;
+  stim.fill();
+}
+
+drawArray = function(trialData){
+  //Draw an array with information in a trial object
+  n_circles = trialData.sizes.length;
+  fillBG();
+  for (i = 0; i < n_circles; i++) {
+      drawCircle(trialData.xlocs[i],
+                 trialData.ylocs[i],
+                 trialData.sizes[i],
+                 trialData.colors[i]);
+  }
+}
+
+testMemory = function(trialData){
+  //Display the test stimulus and trigger the size selection
+  //code that gets handled at a lower-lever by the code below
+  fillBG();
+  window.testData.xloc = trialData.targ_xloc;
+  window.testData.yloc = trialData.targ_yloc;
+  window.testData.origSize = randint(10, 85);
+  drawCircle(testData.targ_xloc,
+             testData.targ_yloc,
+             testData.origSize,
+             "black");
+  document.onmousemove = startSliding;
+}
+
+startSliding = function(evt){
+  //Begin the size report
+  window.mouseStart = evt.pageY;
+  document.onmousemove = sizeSlider;
+}
+
+sizeSlider = function(evt){
+  //Let the participant report the size of the target stim
+  curPos = evt.pageY;
+  newSize = testData.origSize - (curPos - mouseStart);
+  window.testData.curSize = newSize
+  fillBG()
+  drawCircle(testData.xloc,
+             testData.yloc,
+             testData.curSize,
+             "black")
+  document.onmouseclick = saveSize;
+}
+
+saveSize = function(evt){
+  //Lock in the response about the test stimulus size  
+  document.onmousemove = null;
+}
+
+//-- Global variables (probably needed because I am bad at Javasvript
+var testData = {};
+var mouseStart = null;
+var stim = $("canvas")[0].getContext("2d")
+
+//-- Main experimental code
+
+// Set up the trials, which are randomized across participants
 // subject to the constraint that paired arrays can't appear sequentially
 var trials = [];
 var used_trials = [];
@@ -37,118 +105,41 @@ while (trials.length < design.length) {
         this_trial = design[to_use];
         this_id = this_trial.id;
         last_index = trials.length -1
-        last_id = last_index > -1 ? trials[last_index].id : "whatever";
+        last_id = last_index > -1 ? trials[last_index].id : "causefalse";
         if (this_id != last_id) {
             trials.push(this_trial);
         }
     }
 }
+
 // Show the instructions slide -- this is what we want subjects to see first.
 showSlide("instructions");
 
-// Set up the things we'll need for the main experiment
-stim = $("canvas")[0].getContext("2d")
-
-fillBG = function(){
-    stim.fillStyle = "gray";
-    stim.fillRect(0, 0, stim.canvas.width, stim.canvas.height);
-}
-
-drawCircle = function(x, y, d, color){
-    stim.beginPath();
-    stim.arc(x, y, d / 2, 0, 2 * Math.PI);
-    stim.closePath();
-    stim.fillStyle = color;
-    stim.fill();
-}
-
-drawArray = function(trialData){
-    n_circles = trialData.sizes.length;
-    fillBG();
-    for (i = 0; i < n_circles; i++) {
-        drawCircle(trialData.xlocs[i],
-                   trialData.ylocs[i],
-                   trialData.sizes[i],
-                   trialData.colors[i]);
-    }
-}
-
-var testData = {};
-sizeSlider = function(evt){
-    curPos = evt.pageY;
-    newSize = testData.origSize - (curPos - mouseStart);
-    window.testData.curSize = newSize
-    fillBG()
-    drawCircle(testData.xloc,
-               testData.yloc,
-               testData.curSize,
-               "black")
-    document.onmouseclick = saveSize;
-}
-
-var mouseStart = null;
-startSliding = function(evt){
-    window.mouseStart = evt.pageY;
-    document.onmousemove = sizeSlider;
-}
-
-saveSize = function(evt){
-    document.onmousemove = null;
-}
-
-// Here's the top-level function for all this business that
-// actually gets executed by the experiment code
-testMemory = function(trialData){
-    fillBG();
-    window.testData.xloc = trialData.targ_xloc;
-    window.testData.yloc = trialData.targ_yloc;
-    window.testData.origSize = randint(10, 85);
-    drawCircle(testData.targ_xloc,
-               testData.targ_yloc,
-               testData.origSize,
-               "black");
-    document.onmousemove = startSliding;
-}
-
-wait = function(msec){
-    setTimeout(function() {return null}, msec);
-}
-
-
+//Define the main object that control the experiment
 var experiment = {
 
+  //Information about what should happen
   trials: trials, 
 
-  // Set up an empty array to store the experimental data as we go
+  //Information about what did happen
   data: [],
 
-  // The end function completes the experiment and submits to Turk
   end: function() {
+    // Complete the experiment and submit to Turk
     showSlide("finished");
     setTimeout(function() { turk.submit(old_experiment) }, 1500);
   },
 
 
-  // The next function is called on each trial
-  // Basic stages are sample, delay, test
-  // Each of these stages has its own funtion to do the bulk of the work
   next: function() {
+    //Execute all the processing for a trial in the experiment
  
     showSlide("stimulus");
     trial = experiment.trials.shift();
 
-    fillBG();
-    wait(1000);
-
-    // draw some circles
-    drawArray(trial)
-    wait(1500);
-    
-    fillBG();
-    wait(1000);
-
-    // 
-    testMemory(trial);
+    drawArray(trial);
+    setTimeout(fillBG, 1500);
+    setTimeout(function() {testMemory(trial)}, 1000);
 
   }
 }
