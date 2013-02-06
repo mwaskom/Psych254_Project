@@ -16,11 +16,6 @@ function randint(a, b) {
   }
 }
 
-Array.prototype.random = function() {
-  //Randomly select and return an elemant of the array
-  return this[randint(this.length)];
-}
-
 //-- Functions related to control over experimental stimuli
 
 fillBG = function(){
