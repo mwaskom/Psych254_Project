@@ -50,7 +50,9 @@ button[disabled] {
 	cursor: not-allowed;
 }
 
-
+#stimulus {
+    cursor: none;
+}
 
 
 /**
