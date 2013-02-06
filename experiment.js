@@ -1,18 +1,19 @@
 //-- General helper functions
+//
 function showSlide(id) {
   //Show only a slide with a specific ID
   $(".slide").hide();
   $("#" + id).show();
 }
 
-// Get random integers. Behaves like numpy.randint without the size parameter.
 function randint(a, b) {
-	if (typeof b == "undefined") {
-		a = a || 2;
-		return Math.floor(Math.random() * a);
-	} else {
-		return Math.floor(Math.random() * (b-a+1)) + a;
-	}
+  // Get random integers. Behaves like numpy.randint.
+  if (typeof b == "undefined") {
+      a = a || 2;
+      return Math.floor(Math.random() * a);
+  } else {
+      return Math.floor(Math.random() * (b-a+1)) + a;
+  }
 }
 
 Array.prototype.random = function() {
@@ -21,7 +22,7 @@ Array.prototype.random = function() {
 }
 
 
-//-- Functions related to drawing things
+//-- Functions related to control over experimental stimuli
 
 fillBG = function(){
   //Fill in the canvas background with a medium gray  
@@ -112,10 +113,10 @@ while (trials.length < design.length) {
     }
 }
 
-// Show the instructions slide -- this is what we want subjects to see first.
+// Show the instructions slide
 showSlide("instructions");
 
-//Define the main object that control the experiment
+//Define the main object that controls the rest of the experiment
 var experiment = {
 
   //Information about what should happen
@@ -135,11 +136,16 @@ var experiment = {
     //Execute all the processing for a trial in the experiment
  
     showSlide("stimulus");
-    trial = experiment.trials.shift();
 
+    //Get this trial's information
+    var trial = this.trials.shift();
+    //`trial` will be undefined if the experiment is over
+    if (typeof trial == "undefined") { return this.end() }
+
+    //Go through the stages of the trial
     drawArray(trial);
     setTimeout(fillBG, 1500);
-    setTimeout(function() {testMemory(trial)}, 1000);
+    setTimeout(function() { testMemory(trial) }, 1000);
 
   }
 }
