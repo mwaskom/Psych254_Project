@@ -79,9 +79,9 @@ def validate_array(arr):
     for src, dst in itertools.combinations(range(n_circles), 2):
         src_pos = [arr["xlocs"][src], arr["ylocs"][src]]
         dst_pos = [arr["xlocs"][dst], arr["ylocs"][dst]]
-        total_size = arr["sizes"][dst] / 2 + arr["sizes"][dst] / 2
+        total_size = arr["sizes"][src] / 2 + arr["sizes"][dst] / 2
         separation = euclidean(src_pos, dst_pos)
-        if total_size > separation + 10:
+        if total_size > separation + 5:
             return False
 
     return True
