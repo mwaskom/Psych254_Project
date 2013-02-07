@@ -80,8 +80,8 @@ def validate_array(arr):
         src_pos = [arr["xlocs"][src], arr["ylocs"][src]]
         dst_pos = [arr["xlocs"][dst], arr["ylocs"][dst]]
         total_size = arr["sizes"][src] / 2 + arr["sizes"][dst] / 2
-        separation = euclidean(src_pos, dst_pos)
-        if total_size > separation + 5:
+        separation = np.ceil(euclidean(src_pos, dst_pos))
+        if total_size + 5 > separation:
             return False
 
     return True
