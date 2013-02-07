@@ -109,6 +109,7 @@ while (trials.length < design.length) {
     last_id = last_index > -1 ? trials[last_index].id : "causefalse";
     if (this_id != last_id) {
       trials.push(this_trial);
+      used_trials.push(to_use);
     }
   }
 }
