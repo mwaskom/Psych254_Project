@@ -6,11 +6,12 @@ import itertools
 from copy import deepcopy
 from string import letters
 import numpy as np
+from scipy.spatial.distance import euclidean
 
 n_pairs = 15
 n_circles = 9
-color_base = ["red", "green", "blue"]
-inert_color = "green"
+color_base = ["OrangeRed", "LimeGreen", "RoyalBlue"]
+inert_color = color_base[1]
 colors = np.repeat(color_base, n_circles / len(color_base))
 rs = np.random.RandomState(254)
 width = 600
@@ -71,8 +72,18 @@ def make_array():
     return data
 
 
-def validate_array(candidate):
+def validate_array(arr):
     """Return True if candidate is an array that passes our constraints."""
+
+    # No overlapping circles
+    for src, dst in itertools.combinations(range(n_circles), 2):
+        src_pos = [arr["xlocs"][src], arr["ylocs"][src]]
+        dst_pos = [arr["xlocs"][dst], arr["ylocs"][dst]]
+        total_size = arr["sizes"][dst] / 2 + arr["sizes"][dst] / 2
+        separation = euclidean(src_pos, dst_pos)
+        if total_size > separation + 10:
+            return False
+
     return True
 
 
