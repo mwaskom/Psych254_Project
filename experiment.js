@@ -48,10 +48,13 @@ drawArray = function(trialData){
 testMemory = function(trialData){
   //Display the test stimulus and trigger the size selection
   //code that gets handled at a lower-lever by the code below
-  fillBG();
   window.testData.xloc = trialData.targ_xloc;
   window.testData.yloc = trialData.targ_yloc;
   window.testData.origSize = randint(10, 85);
+  curIndex = experiment.data.length - 1;
+  experiment.data[curIndex].orig_test_size = testData.origSize;
+  experiment.data[curIndex].reportStart = (new Date()).getTime();
+  fillBG();
   drawCircle(testData.xloc,
              testData.yloc,
              testData.origSize,
@@ -63,15 +66,12 @@ testMemory = function(trialData){
 sizeSlider = function(evt){
   //Let the participant use mouse to report the size of the target stim
   if (window.mouseStart == null) {
-    console.log(evt.pageY);
     window.mouseStart = evt.pageY;
-    curIndex = experiment.data.length - 1;
-    experiment.data[curIndex].reportStart = (new Date()).getTime();
   }
 
   curPos = evt.pageY;
   newSize = testData.origSize - (curPos - window.mouseStart);
-  window.testData.curSize = newSize;
+  testData.curSize = newSize;
   fillBG();
   drawCircle(testData.xloc,
              testData.yloc,
@@ -82,10 +82,11 @@ sizeSlider = function(evt){
 saveSize = function(evt){
   //Lock in the response about the test stimulus size  
   document.onmousemove = null;
+  document.onmousedown = null;
   window.mouseStart = null;
   curIndex = experiment.data.length - 1;
-  experiment.data[curIndex].reportSize = testData.curSize;
-  experiment.data[curIndex].reportFinish = (new Date()).getTime();
+  experiment.data[curIndex].report_size = testData.curSize;
+  experiment.data[curIndex].report_finish = (new Date()).getTime();
   experiment.next();
 }
 
