@@ -17,14 +17,27 @@
 <div class="slide" id="instructions">
 	<img src="images/stanford.png" alt="Stanford University">
 		<p id='logo-text'>Stanford Psychology Department</p>
-	<p class="block-text">In this experiment, we will be testing your short-term memory. On each trial, you'll see circles of different sizes and colors displayed on the screen. Remember the sizes of the blue and red circles (ignore the green circles). After a one-second delay, a single circle of a random size will appear in black at the location of one of the original circles. Move your mouse up and down until the black circle matches the size you remember the circle that was originally at that position being. When you believe you have matched the size as best you remember, click the mouse to lock in your answer and start the next trial. There will be 30 trials in total.</p>
-    <p class="block-text">Once you click "Start", please complete the experiment without interruptions. If you need a snack or a trip to the bathroom, please do that now. Once you are ready, click "Start" to begin. The first trial will begin one second after clicking.</p>
+	<p class="block-text">In this experiment, we will be testing your short-term memory.<p>
+    <p class="block-text">On each trial, you will see circles of different sizes and colors displayed at random locations on the screen. Your job is to remember the sizes of the blue and red circles, while ignoring the green circles. The circles will be shown for 1.5 seconds, followed by a 1 second delay with nothing on the screen. After the delay, a single black circle will appear with a random size at the location of one of the original red or blue circles.</p>
+    <p class="block-text">When the black circle appears, change its size by moving your mouse up and down until it matches the original circle at that location as best you remember. When you believe you have matched the original size, click the mouse to lock in your answer and start the next trial. There will be 30 trials in total.</p>
+    <p class="block-text">Because the stimuli are going to be delivered quickly and we will be testing your memory, it is important that you minimize distractions as much as possible. If your browser has a "full screen" mode, please enable it, or at least close any other tabs that may draw your attention.</p>
+    <p class="block-text">Once you click "Start", please complete the experiment without interruptions. If you need a snack or a trip to the bathroom, please do that now. When ready, click "Start" to begin. The first trial will happen one second after clicking.</p>
+
 	<!-- Button to start the experiment. <code>this.blur()</code> removes the focus from the button, if the user pressed the button by using the keyboard, rather than the mouse. -->
 	<button type="button" onclick="this.blur(); experiment.next()">Start</button>
 	<!-- Legal blurb that we're required to show.
     Not too sure what we're going to use for this so it's hipster ipsum for now-->
-	<p class="block-text" id="legal">Legal information: Plaid swag PBR tousled master cleanse portland. Tousled selfies before they sold out, retro kogi organic chillwave banh mi small batch direct trade disrupt pickled jean shorts pug. Tumblr +1 readymade, mcsweeney's authentic blog pour-over banh mi gentrify tousled american apparel. Quinoa mcsweeney's jean shorts, helvetica skateboard squid 90's cardigan disrupt iphone cliche leggings. Hashtag biodiesel mixtape VHS, bicycle rights actually mumblecore locavore hoodie vegan umami pinterest. Literally brunch ennui wolf mumblecore, banjo food truck umami marfa you probably haven't heard of them master cleanse. Hoodie you probably haven't heard of them vice selvage, dreamcatcher leggings next level deep v authentic organic PBR vinyl selfies.
-</div>
+	<p class="block-text" id="legal">Legal information: By answering the
+		following questions, you are participating in a study being performed by
+		cognitive scientists in the Stanford Department of Psychology. If you have
+		questions about this research, please contact Michael Waskom at <a
+		href="mailto://mwaskom@stanford.edu">mwaskom@stanford.edu</a> or Mike Frank, 
+        at mcfrank@stanford.edu. You must be  at least 18 years old to
+		participate. Your participation in this research is voluntary. You may
+		decline to answer any or all of the following questions. You may decline
+		further participation, at any time, without adverse consequences. Your
+		anonymity is assured; the researchers who have requested your
+		participation will not receive any personal information about you.</div>
 <!-- The "stage" slide - where the bulk of the experiment will be displayed. Again, note the use of <code>{{}}</code>. -->
 <div class="slide" id="stimulus">
     <canvas id="viewer" width="600" height="400">
