@@ -19,8 +19,8 @@ function randint(a, b) {
 //-- Functions related to control over experimental stimuli
 
 fillBG = function(){
-  //Fill in the canvas background with a medium gray  
-  stim.fillStyle = "gray";
+  //Fill in the canvas background with a light gray
+  stim.fillStyle = "#cccccc";
   stim.fillRect(0, 0, stim.canvas.width, stim.canvas.height);
 }
 
@@ -90,7 +90,7 @@ saveSize = function(evt){
   experiment.next();
 }
 
-//-- Global variables (probably needed because I am bad at Javasvript
+//-- Global variables (probably needed because I am bad at Javasvript)
 var testData = {};
 var mouseStart = null;
 var stim = $("canvas")[0].getContext("2d")
