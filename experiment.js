@@ -53,7 +53,7 @@ testMemory = function(trialData){
   window.testData.origSize = randint(10, 85);
   curIndex = experiment.data.length - 1;
   experiment.data[curIndex].orig_test_size = testData.origSize;
-  experiment.data[curIndex].reportStart = (new Date()).getTime();
+  experiment.data[curIndex].report_start = (new Date()).getTime();
   fillBG();
   drawCircle(testData.xloc,
              testData.yloc,
@@ -94,6 +94,7 @@ saveSize = function(evt){
 var testData = {};
 var mouseStart = null;
 var stim = $("canvas")[0].getContext("2d")
+var instructStart = (new Date()).getTime();
 
 //-- Main experimental code
 
@@ -136,6 +137,12 @@ var experiment = {
 
   next: function() {
     //Execute all the processing for a trial in the experiment
+
+    //Log when the actual experiment started
+    this.instruct_start = instructStart
+    if (data.length == 0) {
+        this.instruct_end = (new Data()).getTime();
+    }
  
     showSlide("stimulus");
 
