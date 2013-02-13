@@ -118,7 +118,7 @@ while (trials.length < design.length) {
 
 //Handle turk preview mode
 if (!turk.previewMode) {
-    $(startButton).attr("disabled", false)
+    $(startButton).attr("disabled", false);
     }
 
 // Show the instructions slide
