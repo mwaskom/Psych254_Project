@@ -116,6 +116,11 @@ while (trials.length < design.length) {
   }
 }
 
+//Handle turk preview mode
+if (!turk.previewMode) {
+    $(startButton).attr("disabled", false)
+    }
+
 // Show the instructions slide
 showSlide("instructions");
 
@@ -140,8 +145,8 @@ var experiment = {
 
     //Log when the actual experiment started
     this.instruct_start = instructStart
-    if (data.length == 0) {
-        this.instruct_end = (new Data()).getTime();
+    if (this.data.length == 0) {
+        this.instruct_end = (new Date()).getTime();
     }
  
     showSlide("stimulus");
