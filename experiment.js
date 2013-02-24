@@ -87,7 +87,8 @@ saveSize = function(evt){
   curIndex = experiment.data.length - 1;
   experiment.data[curIndex].report_size = testData.curSize;
   experiment.data[curIndex].report_finish = (new Date()).getTime();
-  experiment.next();
+  showSlide("advancer");
+  //experiment.next();
 }
 
 //-- Global variables (probably needed because I am bad at Javasvript)
@@ -133,6 +134,14 @@ var experiment = {
   //Information about what did happen
   data: [],
 
+  start: function(){
+    //Show the reminder and begin experiment
+    this.instruct_start = instructStart
+    this.instruct_end = (new Date()).getTime();
+    this.next();
+    //setTimeout(this.next, 1500);
+  },
+
   end: function() {
     // Complete the experiment and submit to Turk
     showSlide("finished");
@@ -142,12 +151,6 @@ var experiment = {
 
   next: function() {
     //Execute all the processing for a trial in the experiment
-
-    //Log when the actual experiment started
-    this.instruct_start = instructStart
-    if (this.data.length == 0) {
-        this.instruct_end = (new Date()).getTime();
-    }
  
     showSlide("stimulus");
 

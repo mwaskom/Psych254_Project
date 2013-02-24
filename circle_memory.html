@@ -40,14 +40,23 @@
 		anonymity is assured; the researchers who have requested your
 		participation will not receive any personal information about you.</div>
 
+<!-- The reminder slide - I can't figure out how to use this actually -->
 <div class="slide" id="reminder">
     <p>Remember the sizes of the blue and red circles.</p>
- </div>
-<!-- The "stage" slide - where the bulk of the experiment will be displayed. Again, note the use of <code>{{}}</code>. -->
+</div>
+
+<!-- The stimulus slide - where the bulk of the experiment will be displayed. -->
 <div class="slide" id="stimulus">
     <canvas id="viewer" width="600" height="400">
     </canvas>
 </div>
+
+<!-- Slide for in between trials-->
+<div class="slide" id="advancer" style="margin-left: 220px; margin-top: 180px">
+	<button type="button" id="goButton" 
+    onclick="this.blur(); experiment.next();">Next Trial</button>
+</div>
+
 <!-- The finish slide. -->
 <div class="slide" id="finished">
 	You're finished - thanks for participating! Submitting to Mechanical Turk...
