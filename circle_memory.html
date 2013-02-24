@@ -17,13 +17,14 @@
     <p id='logo-text'>Stanford Psychology Department</p>
 
 	<p class="block-text">In this experiment, we will be testing your short-term memory.</p>
-    <p class="block-text">On each trial, you will see circles of different sizes and colors displayed at random locations on the screen. Your job is to remember the sizes of the blue and red circles, while ignoring the green circles. The circles will be shown for 1.5 seconds, followed by a 1 second delay with nothing on the screen. After the delay, a single black circle will appear with a random size at the location of one of the original red or blue circles.</p>
-    <p class="block-text">When the black circle appears, change its size by moving your mouse up and down until it matches the original circle at that location as best you remember. When you believe you have matched the original size, click the mouse to lock in your answer and start the next trial. There will be 30 trials in total.</p>
-    <p class="block-text">Because the stimuli are going to be delivered quickly and we will be testing your memory, it is important that you minimize distractions as much as possible. If your browser has a "full screen" mode, please enable it, or at least close any other tabs that may draw your attention.</p>
+    <p class="block-text">On each trial, you will see circles of different sizes and colors displayed at random locations on the screen. <strong>Remember the sizes of the blue and red circles, while ignoring the green circles.</strong> The circles will be shown for 1.5 seconds, followed by a 1 second delay with nothing on the screen. After the delay, a single black circle will appear with a random size at the location of one of the original red or blue circles.</p>
+    <p class="block-text">When the black circle appears, change its size by moving your mouse up and down until it matches the original circle at that location as best you remember. <strong>When you believe you have matched the original size, click the mouse to lock in your answer and start the next trial.</strong> There will be 30 trials in total.</p>
+    <p class="block-text">Because the stimuli are going to be delivered quickly and we will be testing your memory, it is important that you minimize distractions as much as possible. <strong>If your browser has a "full screen" mode, please enable it, or at least close any other tabs that may draw your attention.</strong></p>
     <p class="block-text">Once you click "Start", please complete the experiment without interruptions. If you need a snack or a trip to the bathroom, please do that now. When ready, click "Start" to begin. The first trial will happen one second after clicking.</p>
 
 	<!-- Button to start the experiment. -->
-	<button type="button" id="startButton" onclick="this.blur(); experiment.next()">Start</button>
+	<button type="button" id="startButton"
+     onclick="this.blur(); experiment.start();">Start</button>
 
 	<!-- Legal blurb that we're required to show.
     Not too sure what we're going to use for this so it's hipster ipsum for now-->
@@ -38,6 +39,10 @@
 		further participation, at any time, without adverse consequences. Your
 		anonymity is assured; the researchers who have requested your
 		participation will not receive any personal information about you.</div>
+
+<div class="slide" id="reminder">
+    <p>Remember the sizes of the blue and red circles.</p>
+ </div>
 <!-- The "stage" slide - where the bulk of the experiment will be displayed. Again, note the use of <code>{{}}</code>. -->
 <div class="slide" id="stimulus">
     <canvas id="viewer" width="600" height="400">
