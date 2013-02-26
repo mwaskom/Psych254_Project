@@ -160,6 +160,8 @@ var experiment = {
     if (typeof trial == "undefined") { return this.end() }
 
     this.data.push(trial);
+    trial_str = trials.length == 1 ? " trial" : " trials";
+    $("#trials_left").html(trials.length + trial_str + " to go!");
 
     //Go through the stages of the trial
     fillBG();

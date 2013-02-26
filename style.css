@@ -50,11 +50,6 @@ button[disabled] {
 	cursor: not-allowed;
 }
 
-#stimulus {
-    cursor: none;
-}
-
-
 /**
 ## Experiment-specific styles
 This stuff will vary by experiment.
@@ -66,15 +61,6 @@ This stuff will vary by experiment.
 
 #instructions {
   text-align: center;
-}
-
-#odd-key, #even-key {
-  background-color: #e3e3e3;
-  padding: 2px;
-  border: 1px outset #cccccc;
-  font-family: Courier New;
-  font-weight: bold;
-  font-size: 15px;
 }
 
 .block-text {
@@ -90,11 +76,14 @@ This stuff will vary by experiment.
   font-size: 0.8em;
 }
 
-#number {
-  font-size: 42px;
-  font-family: Arial, sans-serif;
+
+#stimulus {
   margin: 0 auto;
-  text-align: center;
-  width: 100px;
+  cursor: none;
 }
 
+#advancer {
+  margin: 0 auto; 
+  width: 600px;
+  text-align: center;
+} 
