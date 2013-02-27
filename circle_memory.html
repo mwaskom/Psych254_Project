@@ -17,18 +17,20 @@
     <p id='logo-text'>Stanford Psychology Department</p>
 
 	<p class="block-text">In this experiment, we will be testing your short-term memory.</p>
-    <p class="block-text">On each trial, you will see circles of different sizes and colors displayed at random locations on the screen. <strong>Remember the sizes of the blue and red circles, while ignoring the green circles.</strong> The circles will be shown for 1.5 seconds, followed by a 1 second delay with nothing on the screen. After the delay, a single black circle will appear with a random size at the location of one of the original red or blue circles.</p>
+    <p class="block-text">On each trial, you will see circles of different sizes and colors displayed at random locations on the screen. <strong>Remember the sizes of the blue and red circles, but ignore the green circles.</strong> As example, you might see a display that looks like this:</p>
+    <img src="images/example_array.png" alt="Example stimulus" width="400px" style="padding:10px;">
+    <p class="block-text">The circles will be shown for 1.5 seconds, followed by a 1 second delay with nothing on the screen. After the delay, a single black circle will appear at the location of one of the original red or blue circles.</p>
     <p class="block-text">When the black circle appears, change its size by moving your mouse up and down until it matches the original circle at that location as best you remember. <strong>When you believe you have matched the original size, click the mouse to lock in your answer and start the next trial.</strong> There will be 30 trials in total.</p>
-    <p class="block-text">Because the stimuli are going to be delivered quickly and we will be testing your memory, it is important that you minimize distractions as much as possible. <strong>If your browser has a "full screen" mode, please enable it, or at least close any other tabs that may draw your attention.</strong></p>
-    <p class="block-text">Once you click "Start", please complete the experiment without interruptions. If you need a snack or a trip to the bathroom, please do that now. When ready, click "Start" to begin. The first trial will happen one second after clicking.</p>
+    <p class="block-text">Because the stimuli are going to be delivered quickly and we will be testing your memory, it is important that you minimize distractions as much as possible. <strong>Please close or minimize any other tabs that may draw your attention. If your browser has a "full screen" mode, please enable it now.</strong></p>
+    <p class="block-text">When ready, click "Start" to begin. The first trial will happen one second after clicking. Please try to complete the experiment without any interruptions.</p>
 
 	<!-- Button to start the experiment. -->
 	<button type="button" id="startButton"
-     onclick="this.blur(); experiment.start();">Start</button>
+     onclick="this.blur(); showSlide('advancer');">Start</button>
 
 	<!-- Legal blurb that we're required to show.
     Not too sure what we're going to use for this so it's hipster ipsum for now-->
-	<p class="block-text" id="legal">Legal information: By answering the
+	<p class="block-text" id="legal"><strong>Legal information:</strong> By answering the
 		following questions, you are participating in a study being performed by
 		cognitive scientists in the Stanford Department of Psychology. If you have
 		questions about this research, please contact Michael Waskom at 
@@ -56,7 +58,7 @@
     <p id="rule">Remember the sizes of the blue and red circles!</p>
 	<button type="button" id="goButton" 
     onclick="this.blur(); experiment.next();">Next Trial</button>
-    <p id="trials_left">##</p>
+    <p id="trials_left">30 trials to go!</p>
 </div>
 
 <!-- The finish slide. -->
